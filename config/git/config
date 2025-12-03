@@ -1,0 +1,46 @@
+[user]
+email = 97819453+cutehax0r@users.noreply.github.com
+name = cutehaX0r
+
+[github]
+name = cutehaX0r
+
+[core]
+editor = nvim
+pager = less
+excludefiles = ~/.config/git/ignore
+
+[push]
+default = simple
+autoSetupRemote = true
+default = simple
+
+[diff]
+tool = nvimdiff
+algorithm = patience
+
+[difftool "nvimdiff"]
+cmd = "nvim -R -d \"$REMOTE\" \"$LOCAL\""
+
+[difftool]
+prompt = false
+
+[alias]
+branches = branch -a
+unstage = reset -q HEAD --
+uncommit = reset --mixed HEAD~
+unfuck = !git reset --hard HEAD && git clean -d -f
+precommit = diff --cached --diff-algorithm=minimal -w
+graph = log --graph --date-order --remotes --tags --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
+stashes = "!git stash list --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs'"
+branchlog = log --pretty=format:'[%Cblue%an%Creset] %h %Cgreen%s%Creset' --numstat --reverse master..
+
+[init]
+defaultBranch = main
+[credential "https://github.com"]
+helper = 
+helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+helper = 
+helper = !/opt/homebrew/bin/gh auth git-credential

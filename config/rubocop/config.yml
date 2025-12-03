@@ -1,0 +1,58 @@
+---
+plugins: 
+  - rubocop-sorbet
+
+AllCops:
+  TargetRubyVersion: 3.4
+  NewCops: disable
+  SuggestExtensions: false
+
+inherit_mode:
+  merge:
+    - AllowedNames
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/LeadingCommentSpace:
+  AllowRBSInlineAnnotation: true
+
+Layout/LineLength:
+  Max: 120
+  AllowedPatterns: ['\A\s*#:'] # for inline RBS signaturs
+
+Metrics/BlockLength:
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+
+Naming/MethodParameterName:
+  AllowedNames:
+    - x
+    - y
+    - z
+
+Sorbet/FalseSigil:
+  Enabled: false
+
+Sorbet/TrueSigil:
+  Enabled: true
+  Exclude:
+    - "**/*.rake"
+    - "test/**/*.rb"
+    - "spec/**/*.rb"
+
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
