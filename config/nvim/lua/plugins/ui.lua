@@ -3,7 +3,8 @@
 -- A simple UI for toggling on and off visual clutter
 -- ~/Documents/src/github.com/cutehax0r/toggler.nvim
 local toggler = {
-  dir = "~/Documents/src/github.com/cutehax0r/toggler.nvim",
+  -- dir = "~/Documents/src/github.com/cutehax0r/toggler.nvim",
+  "cutehax0r/toggler.nvim",
   dependencies = {
     "folke/snacks.nvim",
   },
