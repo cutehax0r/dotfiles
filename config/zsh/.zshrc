@@ -36,6 +36,7 @@ typeset -aU path
 path=(
   $path
   $HOME/.local/share/go/bin
+  $HOME/Documents/src/github.com/cutehax0r/scripts
 )
 typeset -aU cdpath
 cdpath=(
