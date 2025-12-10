@@ -5,7 +5,27 @@ export HISTSIZE="10000"
 export SAVEHIST="10000"
 export EDITOR="/opt/homebrew/bin/nvim"
 export PROMPT='%F{%(?.green.red)}${SHORT_PWD}❯%f '
-# Can we load our API keys from keychain here?
+
+# set environment vars
+# API keys are stored in macOS Keychain (login.keychain-db - generic password items)
+# To add keys to Keychain using the command line:
+#   security add-generic-password -a "ENV_GEMINI_API_KEY" -s "https://aistudio.google.com" -w "your-key-here" -l "ENV: Google AI Studio"
+# To retrieve:
+#   security find-generic-password -a "ENV_GEMINI_API_KEY" -w
+function get_keychain_password() {
+  local account_name="$1"
+  local password
+  if [[ -z "$account_name" ]]; then
+    return 1
+  fi
+  password=$(security find-generic-password -a "$account_name" -w 2>/dev/null)
+  echo "${password%%}"
+}
+export BW_PASSWORD=$(get_keychain_password "ENV_BW_SESSION")
+export GEMINI_API_KEY=$(get_keychain_password "ENV_GEMINI_API_KEY")
+export ANTHROPIC_API_KEY=$(get_keychain_password "ENV_ANTHROPIC_API_KEY")
+export GITHUB_COPILOT_TOKEN=$(get_keychain_password "ENV_GITHUB_COPILOT_TOKEN")
+export GH_TOKEN=$(get_keychain_password "ENV_GITHUB_GH_TOKEN")
 
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_FCNTL_LOCK
