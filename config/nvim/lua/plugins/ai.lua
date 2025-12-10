@@ -22,7 +22,7 @@ local opencode = {
 local copilot = {
   "zbirenbaum/copilot.lua",
   cmd = "Copilot",
-  -- event = "InsertEnter",
+  event = "InsertEnter",
   command = { "Copilot" },
   keys = {
     { "<leader>ac", "<CMD>Copilot suggestion toggle_auto_trigger<CR>", mode = { "n", "v" }, desc = "Copilot: toggle suggestions" },
