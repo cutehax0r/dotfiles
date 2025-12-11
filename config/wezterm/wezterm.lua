@@ -103,7 +103,7 @@ config.color_scheme = 'cc'
 
 -- Fonts
 -- /Applications/Wezterm.app/Contents/Macos/wezterm ls-fonts --list-system
-config.font = wezterm.font('CartographCF Nerd Font', { weight = 'Light', italic = false })
+config.font = wezterm.font('Cartograph CF', { weight = 'Light', italic = false })
 config.font_size = 12
 config.adjust_window_size_when_changing_font_size = false
 config.tab_max_width = 13
