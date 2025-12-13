@@ -47,6 +47,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
   alias lr="/opt/homebrew/bin/eza --group-directories-first --hyperlink --icons -F -x -a -R"
   alias lt="/opt/homebrew/bin/eza --group-directories-first --hyperlink --icons -F -a -x --tree"
 fi
+alias src="cd ~/Documents/src/github.com/cutehax0r"
 
 alias vi="$EDITOR"
 alias vim="$EDITOR"
