@@ -33,6 +33,7 @@ local lualine = {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
+    ---@diagnostic disable-next-line: undefined-field
     require("lualine").setup({
       options = {
         icons_enabled = true,
@@ -50,6 +51,7 @@ local lualine = {
         },
       },
       sections = {
+        -- TODO: what if we customized this to just show 'i', 'n', 'v', 'x', etc?
         lualine_a = { "mode" },
         lualine_b = {},
         lualine_c = {
@@ -58,7 +60,7 @@ local lualine = {
             file_status = true,
             newfile_status = true,
             symbols = {
-              modified = "",
+              modified = "",
               readonly = "",
               unnamed = " Unnamed",
               newfile = "",
@@ -71,6 +73,7 @@ local lualine = {
             color = { fg = "#ff9e64" },
           },
         },
+        -- this has an extra space of padding on the left. Needs format
         lualine_z = { "location" },
       },
       inactive_sections = {
