@@ -13,36 +13,7 @@ config.automatically_reload_config = true
 --  && rm $tempfile
 config.term = 'wezterm'
 
--- set environment vars
--- API keys are stored in macOS Keychain (login.keychain-db - generic password items)
--- To add keys to Keychain using the command line:
---   security add-generic-password -a "ENV_GEMINI_API_KEY" -s "https://aistudio.google.com" -w "your-key-here" -l "ENV: Google AI Studio"
--- To retrieve: security find-generic-password -a "ENV_GEMINI_API_KEY" -w
-
--- Function to retrieve a password from Keychain
--- local function get_keychain_password(account_name)
---   local cmd = string.format('security find-generic-password -a "%s" -w', account_name)
---   local handle = io.popen(cmd)
---   if not handle then
---     return ''
---   end
---   local password = handle:read("*a")
---   if handle then
---     handle:close()
---   end
---   if password then
---     return password:gsub("%s+$", "")
---   end
---   return ''
--- end
-
 config.set_environment_variables = {
-  -- BW_SESSION = get_keychain_password('ENV_BW_SESSION'),
-  -- GEMINI_API_KEY = get_keychain_password('ENV_GEMINI_API_KEY'),
-  -- ANTHROPIC_API_KEY = get_keychain_password('ENV_ANTHROPIC_API_KEY'),
-  -- GITHUB_COPILOT_TOKEN = get_keychain_password('ENV_GITHUB_COPILOT_TOKEN'),
-  -- GH_TOKEN = get_keychain_password('ENV_GITHUB_GH_TOKEN'),
-
   XDG_CONFIG_HOME = os.getenv('HOME') .. '/.config',
   XDG_STATE_HOME = os.getenv('HOME') .. '/.local/share',
   XDG_DATA_HOME = os.getenv('HOME') .. '/.local/state',
