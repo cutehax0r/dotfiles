@@ -2,8 +2,16 @@
 -- https://github.com/Shopify/ruby-lsp
 return {
   cmd = { "ruby-lsp" },
-  filetypes = { "ruby", "eruby" },
-  root_markers = { "Gemfile", ".git", ".ruby-version", "Rakefile" },
+  filetypes = {
+    "ruby",
+    "eruby"
+  },
+  root_markers = {
+    "Gemfile",
+    ".git",
+    ".ruby-version",
+    "Rakefile"
+  },
   init_options = {
     experimentalFeaturesEnabled = true,
     enabledFeatures = {

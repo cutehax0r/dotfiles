@@ -1,14 +1,16 @@
 -- auto install treesitter languages and enable folding / indenting
 vim.api.nvim_create_autocmd({ "Filetype" }, {
   callback = function(event)
+    -- don't
     local ignored_fts = {
+      "checkhealth",
       "snacks_dashboard",
       "snacks_notif",
       "snacks_input",
-      "prompt", -- bt: snacks_picker_input,
+      "prompt",
     }
-
     if vim.tbl_contains(ignored_fts, event.match) then return end
+
     local ok, nvim_treesitter = pcall(require, "nvim-treesitter")
     if not ok then return end
 
@@ -36,8 +38,8 @@ local treesitter = {
   lazy = false,
 }
 
--- -- Further extends treesitter to automatically insert "end" for functions in lua/ruby/etc
--- -- https://github.com/RRethy/nvim-treesitter-endwise
+-- Further extends treesitter to automatically insert "end" for functions in lua/ruby/etc
+-- https://github.com/RRethy/nvim-treesitter-endwise
 local endwise = {
   "RRethy/nvim-treesitter-endwise",
   event = "InsertEnter",
@@ -66,7 +68,6 @@ local ts_modules = {
       "git_config",
       "git_rebase",
       "gitcommit",
-      -- "gitignore",
       "go",
       "gomod",
       "gotmpl",
@@ -139,5 +140,4 @@ local vt_context = {
   },
 }
 
--- https://github.com/cameronr/dotfiles/blob/e51cece81ca64995498d9543b73b99f4939e7176/nvim/lua/plugins/treesitter.lua#L15
 return { treesitter, endwise, ts_modules, context, vt_context }

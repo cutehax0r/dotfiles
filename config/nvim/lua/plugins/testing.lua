@@ -1,3 +1,5 @@
+-- A wrapper around testing tools
+-- https://github.com/nvim-neotest/neotest
 local neotest = {
   "nvim-neotest/neotest",
   lazy = true,

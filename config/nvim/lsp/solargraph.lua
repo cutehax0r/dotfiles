@@ -3,8 +3,15 @@
 return {
   enabled = false,
   cmd = { "solargraph", "stdio" },
-  filetypes = { "ruby", "eruby" },
-  root_markers = { ".ruby-version", "Gemfile", ".git" },
+  filetypes = {
+    "ruby",
+    "eruby"
+  },
+  root_markers = {
+    ".ruby-version",
+    "Gemfile",
+    ".git"
+  },
   init_options = { formatting = false },
   settings = {
     solargraph = {
