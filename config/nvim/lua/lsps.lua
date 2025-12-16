@@ -1,13 +1,12 @@
--- TODO:
-  -- * SQL
-  -- * GraphQL
-  -- * C
-  -- * Arduino
-  -- * 6502 assembly
-  -- * docker
-  -- * html
-  -- * css
-  -- * javascript
+-- TODO: consider writing a "list LSPs" and "start/stop/restart lsps" plugin. nvim-lsp config
+-- provides something but I think we can go lighter than that.
+-- `:checkhealth vim.lsp` exists to list things but maybe you can do better with Snacks?
+-- List lsps with `vim.lsp.get_clients({ bufnr = 0 })`
+-- Stop them with `vim.lsp.stop_client(client.id)` where `client` is from `get_clients`
+-- force shutdown by passing `true` as a second argument to `stop_client()`
+-- Start them with `local client_id = vim.lsp.start_client(config)` and then attach it to the
+-- current buffer with vim.lsp.buf_attach_client(0, client_id)
+-- note that config should come from `vim.lsp['_enabled_configs']`
 
 -- Automatically enable any LSP defined in ~/.config/nvim/lsp
 for _, file in ipairs(vim.fn.readdir(vim.fn.stdpath("config") .. "/lsp")) do
@@ -55,6 +54,7 @@ vim.api.nvim_create_autocmd("LspProgress", {
       title = client.name,
       opts = function(notif)
         notif.icon = #progress[client.id] == 0 and " "
+          ---@diagnostic disable-next-line: undefined-field
           or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
       end,
     })
