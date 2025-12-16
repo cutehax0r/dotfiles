@@ -25,7 +25,7 @@ local copilot = {
   event = "InsertEnter",
   command = { "Copilot" },
   keys = {
-    { "<leader>ac", "<CMD>Copilot suggestion toggle_auto_trigger<CR>", mode = { "n", "v" }, desc = "Copilot: toggle suggestions" },
+    { "<leader>ac", "<cmd>Copilot suggestion toggle_auto_trigger<cr>", mode = { "n", "v" }, desc = "Copilot: toggle suggestions" },
   },
   config = function()
     require("copilot").setup({
