@@ -40,13 +40,35 @@ local paperplanes = {
   },
 }
 
--- Shows what's changed in a source repository. Diff files side-by-side, browse history of changes, compare revisions, branches, or handle merging.
--- https://github.com/sindrets/diffview.nvim
-local diffview = {
-  "sindrets/diffview.nvim",
+-- Git diff view that is a little more robust than the default `vimdiff`. Inspired by vscode it has
+-- different highlights for line vs character level changes,
+-- -- https://github.com/esmuellert/vscode-diff.nvim?tab=readme-ov-file
+-- the 'next' branch is a pre-release version that includes 3-way merge and conflict resolution
+-- improvements. It may be buggy.
+-- https://github.com/esmuellert/vscode-diff.nvim/issues/97
+-- git config --global merge.tool vscode-diff
+-- git config --global mergetool.vscode-diff.cmd 'nvim "$MERGED" -c "CodeDiff merge \"$MERGED\""'
+local codediff = {
+  "esmuellert/vscode-diff.nvim",
+  dependencies = { "MunifTanjim/nui.nvim" },
+  branch = "next",
+  cmd = "CodeDiff",
   keys = {
-    { "<leader>gd", function() if next(require("diffview.lib").views) == nil then vim.cmd("DiffviewOpen") else vim.cmd("DiffviewClose") end end, mode = { "n" }, desc = "Git diff the current buffer" },
+    -- maybe this should be gd = menu, and then gdf = codediff file, etc?
+    { "<leader>gd", "<cmd>CodeDiff file HEAD<cr>", mode = { "n", "v" }, desc = "Git: Diff this file with last commit (HEAD)" },
+    -- diff this file with head~1
+    -- diff this file with master/main
+    -- diff branch with head~1
+    -- diff branch with master/main
   },
+  config = function()
+    require("vscode-diff").setup({
+      diff = {
+        disable_inlay_hints = true,
+        max_computation_time_ms = 5000,
+      },
+    })
+  end,
 }
 
-return { gitsigns, paperplanes, diffview }
+return { gitsigns, paperplanes, codediff }
