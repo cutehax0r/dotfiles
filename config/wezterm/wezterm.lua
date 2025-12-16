@@ -17,11 +17,7 @@ config.set_environment_variables = {
   XDG_CONFIG_HOME = os.getenv('HOME') .. '/.config',
   XDG_STATE_HOME = os.getenv('HOME') .. '/.local/share',
   XDG_DATA_HOME = os.getenv('HOME') .. '/.local/state',
-  EZA_CONFIG_DIR = os.getenv('HOME') .. '/.config/eza',
-  GOPATH = os.getenv('HOME') .. '/.local/share/go',
   ZDOTDIR = os.getenv('HOME') .. '/.config/zsh',
-  HOMEBREW_NO_ANALYTICS = '1',
-  HOMEBREW_NO_ENV_HINTS = '1',
 }
 
 -- Window config

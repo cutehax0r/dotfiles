@@ -5,6 +5,10 @@ export HISTSIZE="10000"
 export SAVEHIST="10000"
 export EDITOR="/opt/homebrew/bin/nvim"
 export PROMPT='%F{%(?.green.red)}${SHORT_PWD}❯%f '
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_ENV_HINTS=1
+export EZA_CONFIG_DIR="$HOME/.config/eza"
+export GOPATH="$HOME/.local/share/go"
 
 # set environment vars
 # API keys are stored in macOS Keychain (login.keychain-db - generic password items)
