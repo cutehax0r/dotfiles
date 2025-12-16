@@ -20,7 +20,8 @@ local gitsigns = {
   end,
 }
 
--- Generates "pastebins" or "gists". Takes text in your editor and puts it on the internet so you can share the links with people without creating a repository.
+-- Generates "pastebins" or "gists". Takes text in your editor and puts it on the internet so you
+-- can share the links with people without creating a repository.
 -- https://github.com/rktjmp/paperplanes.nvim
 local paperplanes = {
   "rktjmp/paperplanes.nvim",
