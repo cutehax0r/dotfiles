@@ -1,7 +1,7 @@
 -- auto install treesitter languages and enable folding / indenting
 vim.api.nvim_create_autocmd({ "Filetype" }, {
   callback = function(event)
-    -- don't
+    -- don't run on things you aren't going to care about the ast in.
     local ignored_fts = {
       "checkhealth",
       "snacks_dashboard",
