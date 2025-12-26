@@ -147,8 +147,9 @@ then
   # ruby-build 3.4.6 ~/.local/share/ruby/3.4.6
   RUBIES+=(
     "$HOME/.local/share/ruby/3.4.6"
+    "$HOME/.local/share/ruby/4.0.0"
   )
-  chruby 3.4.6
+  chruby 4.0.0
 fi
 
 if test -r "$HOMEBREW_PREFIX/bin/fnm"
