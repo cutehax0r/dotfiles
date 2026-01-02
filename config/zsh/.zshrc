@@ -32,12 +32,11 @@ then
   alias lr="/opt/homebrew/bin/eza --group-directories-first --hyperlink --icons -F -x -a -R"
   alias lt="/opt/homebrew/bin/eza --group-directories-first --hyperlink --icons -F -a -x --tree"
 fi
-alias src="cd ~/Documents/src/github.com/cutehax0r"
-
 alias vi="$EDITOR"
 alias vim="$EDITOR"
 alias vimdiff="$EDITOR -d"
 
+# directory/path handling
 typeset -aU path
 path=(
   $path
@@ -48,7 +47,14 @@ typeset -aU cdpath
 cdpath=(
   $HOME/Documents/src/github.com/cutehax0r
 )
+hash -d s=~/Documents/src/github.com/cutehax0r
+hash -d c=~/.config/
+hash -d l=~/.local/share
+alias src="cd ~s"
+alias conf="cd ~c"
 
+
+# Completion
 autoload -U compinit
 () {
 if [[ $# -gt 0 ]]; then
