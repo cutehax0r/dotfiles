@@ -22,6 +22,12 @@ do
 done
 ```
 
+Install fzf tab complete plugin
+```sh
+mkdir -p ~/.local/share/fzf
+git clone https://github.com/Aloxaf/fzf-tab ~/.local/share/fzf/tab-complete
+```
+
 Ensure keychain contains the 'secrets' for environment variables in `config/zsh/.zshrc`:
   * `ENV_BW_SESSION` Bitwarden session token
   * `ENV_GEMINI_API_KEY` Google gemini API key
@@ -33,3 +39,4 @@ Using keychain access or through the comand line with:
 ```sh
 security add-generic-password -l "ENV: some label" -a "username" -s "server" -w "your-key-here"
 ```
+
