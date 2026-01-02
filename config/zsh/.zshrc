@@ -145,18 +145,19 @@ then
   eval "$($HOMEBREW_PREFIX/bin/fnm env --use-on-cd --shell zsh)"  && eval "$($HOMEBREW_PREFIX/bin/fnm env --use-on-cd --shell zsh)"
 fi
 
-export FZF_DEFAULT_OPTS=" \
---color=bg+:#363A4F,bg:#24273A,spinner:#F4DBD6,hl:#ED8796 \
---color=fg:#CAD3F5,header:#ED8796,info:#C6A0F6,pointer:#F4DBD6 \
---color=marker:#B7BDF8,fg+:#CAD3F5,prompt:#C6A0F6,hl+:#ED8796 \
---color=selected-bg:#494D64 \
---color=border:#6E738D,label:#CAD3F5"
 if test -r "$HOMEBREW_PREFIX/bin/fzf"
 then
+  export FZF_DEFAULT_OPTS=" \
+  --color=bg+:#363A4F,bg:#24273A,spinner:#F4DBD6,hl:#ED8796 \
+  --color=fg:#CAD3F5,header:#ED8796,info:#C6A0F6,pointer:#F4DBD6 \
+  --color=marker:#B7BDF8,fg+:#CAD3F5,prompt:#C6A0F6,hl+:#ED8796 \
+  --color=selected-bg:#494D64 \
+  --color=border:#6E738D,label:#CAD3F5"
   source <($HOMEBREW_PREFIX/bin/fzf --zsh)
 fi
 
 # need ls_colors set for cattpuscin to make this consistent
+# should this go in an 'else' block?
 # git clone https://github.com/Aloxaf/fzf-tab ~/.local/share/fzf/tab-complete
 if test -r "$HOME/.local/share/fzf/tab-complete/fzf-tab.plugin.zsh"
 then
