@@ -5,51 +5,6 @@ export HISTSIZE="10000"
 export SAVEHIST="10000"
 export EDITOR="/usr/bin/vim"
 export PROMPT='%F{%(?.green.red)}${SHORT_PWD}❯%f '
-export HOMEBREW_NO_ANALYTICS=1
-export HOMEBREW_NO_ENV_HINTS=1
-export EZA_CONFIG_DIR="$HOME/.config/eza"
-export GOPATH="$HOME/.local/share/go"
-
-# Retrieve keychain items by keychain name.
-# To add keys to Keychain using the command line:
-#   security add-generic-password -l "ENV: some label" -a "username" -s "server" -w "your-key-here"
-# Test them with:
-#   security find-generic-password -l "ENV: some label" -w
-# To retrieve:
-#   get_keychain_item "ENV: some label" "account"   # returns account name
-#   get_keychain_item "ENV: some label" "server"    # returns server/service
-#   get_keychain_item "ENV: some label" "password"  # returns password
-function get_keychain_item() {
-  local keychain_name="$1"
-  local item_type="$2"
-  local result
-  
-  if [[ -z "$keychain_name" || -z "$item_type" ]]; then
-    return 1
-  fi
-  
-  case "$item_type" in
-    account)
-      result=$(security find-generic-password -l "$keychain_name" 2>/dev/null | awk '/"acct"<blob>/ { val=$0; sub(/.*=/,"",val); gsub(/"/,"",val); print val }')
-      ;;
-    server)
-      result=$(security find-generic-password -l "$keychain_name" 2>/dev/null | awk '/"svce"<blob>/ { val=$0; sub(/.*=/,"",val); gsub(/"/,"",val); print val }')
-      ;;
-    password)
-      result=$(security find-generic-password -l "$keychain_name" -w 2>/dev/null)
-      ;;
-    *)
-      return 1
-      ;;
-  esac
-  echo "${result%%}"
-}
-
-export BW_PASSWORD=$(get_keychain_item "ENV: Bitwarden Session" "password")
-export GEMINI_API_KEY=$(get_keychain_item "ENV: Google AI Studio API Key" "password")
-export ANTHROPIC_API_KEY=$(get_keychain_item "ENV: Anthropic Claude Code API Key" "password")
-export GITHUB_COPILOT_TOKEN=$(get_keychain_item "ENV: Github Copilot token" "password")
-export GH_TOKEN=$(get_keychain_item "ENV: Github gh CLI token" "password")
 
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_FCNTL_LOCK
@@ -210,3 +165,74 @@ then
   zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
   source "$HOME/.local/share/fzf/tab-complete/fzf-tab.plugin.zsh"
 fi
+
+# Retrieve keychain items by keychain name.
+# To add keys to Keychain using the command line:
+#   security add-generic-password -l "ENV: some label" -a "username" -s "server" -w "your-key-here"
+# Test them with:
+#   security find-generic-password -l "ENV: some label" -w
+# To retrieve:
+#   get_keychain_item "ENV: some label" "account"   # returns account name
+#   get_keychain_item "ENV: some label" "server"    # returns server/service
+#   get_keychain_item "ENV: some label" "password"  # returns password
+function get_keychain_item() {
+  local keychain_name="$1"
+  local item_type="$2"
+  local result
+  
+  if [[ -z "$keychain_name" || -z "$item_type" ]]; then
+    return 1
+  fi
+  
+  case "$item_type" in
+    account)
+      result=$(security find-generic-password -l "$keychain_name" 2>/dev/null | awk '/"acct"<blob>/ { val=$0; sub(/.*=/,"",val); gsub(/"/,"",val); print val }')
+      ;;
+    server)
+      result=$(security find-generic-password -l "$keychain_name" 2>/dev/null | awk '/"svce"<blob>/ { val=$0; sub(/.*=/,"",val); gsub(/"/,"",val); print val }')
+      ;;
+    password)
+      result=$(security find-generic-password -l "$keychain_name" -w 2>/dev/null)
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+  echo "${result%%}"
+}
+# This is a hack to make the slow fetching of environment variables from keychain less noticable.
+# It's still slow, not-async, and blocking, but it's less noticeable if we delay it until after the
+# prompt is show.
+#
+# We register a command `_zsh_slow_init_handler` to run precmd - before every prompt is displayed.
+# We use `ZSH_SLOW_INIT_DONE` to ensure that it only runs once. When it runs it opens a file
+# descriptor for reading /dev/null and registers a callback for when that becomes readable. This
+# should happen instantly BUT by doing this as a callback the prompt will render after the zle call.
+#
+# Once the prompt is done that file descriptor callback will fire. At this point the UI is blocking
+# but you probably aren't trying to type for a few milliseconds so you don't notice. The callback
+# unregisters itself and closes the /dev/null file descriptor. Then it kicks off all those slow
+# calls out to `get_keychain_item()` and exports the environment variables.
+#
+# This would be a good place to add other slow things that might block prompt rendering.
+# compinit regeneration maybe?
+autoload -Uz add-zsh-hook
+typeset -gi ZSH_SLOW_INIT_FD
+function _slow_init_handler() {
+  if [[ -n $ZSH_SLOW_INIT_DONE ]]; then
+    return
+  fi
+  ZSH_SLOW_INIT_DONE=1
+  exec {ZSH_SLOW_INIT_FD}</dev/null
+  zle -F $ZSH_SLOW_INIT_FD _slow_init
+}
+function _slow_init() {
+  zle -F $ZSH_SLOW_INIT_FD
+  exec {ZSH_SLOW_INIT_FD}<&-
+  export BW_PASSWORD=$(get_keychain_item "ENV: Bitwarden Session" "password")
+  export GEMINI_API_KEY=$(get_keychain_item "ENV: Google AI Studio API Key" "password")
+  export ANTHROPIC_API_KEY=$(get_keychain_item "ENV: Anthropic Claude Code API Key" "password")
+  export GITHUB_COPILOT_TOKEN=$(get_keychain_item "ENV: Github Copilot token" "password")
+  export GH_TOKEN=$(get_keychain_item "ENV: Github gh CLI token" "password")
+}
+add-zsh-hook precmd _slow_init_handler
