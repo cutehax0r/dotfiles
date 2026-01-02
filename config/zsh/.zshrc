@@ -3,7 +3,7 @@ export HISTFILE="$HOME/.local/share/zsh/zsh_history"
 export ZCOMPDUMP="$HOME/.local/share/zsh/zcompdump"
 export HISTSIZE="10000"
 export SAVEHIST="10000"
-export EDITOR="/opt/homebrew/bin/nvim"
+export EDITOR="/usr/bin/vim"
 export PROMPT='%F{%(?.green.red)}${SHORT_PWD}❯%f '
 export HOMEBREW_NO_ANALYTICS=1
 export HOMEBREW_NO_ENV_HINTS=1
@@ -61,9 +61,15 @@ setopt PROMPT_SUBST
 unsetopt AUTOCD
 unsetopt EXTENDED_HISTORY
 
+# Homebrew specific config
 if test -r "/opt/homebrew/bin/brew"
 then
-eval "$(/opt/homebrew/bin/brew shellenv)"
+  export HOMEBREW_NO_ANALYTICS=1
+  export HOMEBREW_NO_ENV_HINTS=1
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  export EDITOR="/opt/homebrew/bin/nvim"
+  export EZA_CONFIG_DIR="$HOME/.config/eza"
+  export GOPATH="$HOME/.local/share/go"
   alias cat="/opt/homebrew/bin/bat --paging=never"
   alias ls="/opt/homebrew/bin/eza --group-directories-first --hyperlink --icons -F -x"
   alias la="/opt/homebrew/bin/eza --group-directories-first --hyperlink --icons -F -x -a"
