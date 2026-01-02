@@ -10,26 +10,46 @@ export HOMEBREW_NO_ENV_HINTS=1
 export EZA_CONFIG_DIR="$HOME/.config/eza"
 export GOPATH="$HOME/.local/share/go"
 
-# set environment vars
-# API keys are stored in macOS Keychain (login.keychain-db - generic password items)
+# Retrieve keychain items by keychain name.
 # To add keys to Keychain using the command line:
-#   security add-generic-password -a "ENV_GEMINI_API_KEY" -s "https://aistudio.google.com" -w "your-key-here" -l "ENV: Google AI Studio"
+#   security add-generic-password -l "ENV: some label" -a "username" -s "server" -w "your-key-here"
+# Test them with:
+#   security find-generic-password -l "ENV: some label" -w
 # To retrieve:
-#   security find-generic-password -a "ENV_GEMINI_API_KEY" -w
-function get_keychain_password() {
-  local account_name="$1"
-  local password
-  if [[ -z "$account_name" ]]; then
+#   get_keychain_item "ENV: some label" "account"   # returns account name
+#   get_keychain_item "ENV: some label" "server"    # returns server/service
+#   get_keychain_item "ENV: some label" "password"  # returns password
+function get_keychain_item() {
+  local keychain_name="$1"
+  local item_type="$2"
+  local result
+  
+  if [[ -z "$keychain_name" || -z "$item_type" ]]; then
     return 1
   fi
-  password=$(security find-generic-password -a "$account_name" -w 2>/dev/null)
-  echo "${password%%}"
+  
+  case "$item_type" in
+    account)
+      result=$(security find-generic-password -l "$keychain_name" 2>/dev/null | awk '/"acct"<blob>/ { val=$0; sub(/.*=/,"",val); gsub(/"/,"",val); print val }')
+      ;;
+    server)
+      result=$(security find-generic-password -l "$keychain_name" 2>/dev/null | awk '/"svce"<blob>/ { val=$0; sub(/.*=/,"",val); gsub(/"/,"",val); print val }')
+      ;;
+    password)
+      result=$(security find-generic-password -l "$keychain_name" -w 2>/dev/null)
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+  echo "${result%%}"
 }
-export BW_PASSWORD=$(get_keychain_password "ENV_BW_SESSION")
-export GEMINI_API_KEY=$(get_keychain_password "ENV_GEMINI_API_KEY")
-export ANTHROPIC_API_KEY=$(get_keychain_password "ENV_ANTHROPIC_API_KEY")
-export GITHUB_COPILOT_TOKEN=$(get_keychain_password "ENV_GITHUB_COPILOT_TOKEN")
-export GH_TOKEN=$(get_keychain_password "ENV_GITHUB_GH_TOKEN")
+
+export BW_PASSWORD=$(get_keychain_item "ENV: Bitwarden Session" "password")
+export GEMINI_API_KEY=$(get_keychain_item "ENV: Google AI Studio API Key" "password")
+export ANTHROPIC_API_KEY=$(get_keychain_item "ENV: Anthropic Claude Code API Key" "password")
+export GITHUB_COPILOT_TOKEN=$(get_keychain_item "ENV: Github Copilot token" "password")
+export GH_TOKEN=$(get_keychain_item "ENV: Github gh CLI token" "password")
 
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_FCNTL_LOCK
