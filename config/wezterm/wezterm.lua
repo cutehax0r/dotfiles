@@ -15,8 +15,8 @@ config.term = 'wezterm'
 
 config.set_environment_variables = {
   XDG_CONFIG_HOME = os.getenv('HOME') .. '/.config',
-  XDG_STATE_HOME = os.getenv('HOME') .. '/.local/share',
-  XDG_DATA_HOME = os.getenv('HOME') .. '/.local/state',
+  XDG_STATE_HOME = os.getenv('HOME') .. '/.local/state',
+  XDG_DATA_HOME = os.getenv('HOME') .. '/.local/share',
   ZDOTDIR = os.getenv('HOME') .. '/.config/zsh',
 }
 
