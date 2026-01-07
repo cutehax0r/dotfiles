@@ -1,8 +1,8 @@
 -- Mapping keys that don't have anything to do with plugins
 local k = vim.keymap.set
 vim.g.mapleader = " "                       -- Use "space" as leader key
-k({ "n", "v" }, "XX", "<cmd>qall!<cr>", { silent = true, desc = "Save the file and quit" })
-k({ "n", "v" }, "ZZ", "<cmd>x<cr>", { silent = true, desc = "Quit without saving" })
+k({ "n", "v" }, "XX", "<cmd>qall!<cr>", { silent = true, desc = "Quit without saving changes" })
+k({ "n", "v" }, "ZZ", "<cmd>x<cr>", { silent = true, desc = "Safe changes (if any) and quit" })
 k({ "n", "v" }, "<leader>\\", "<cmd>vsplit<cr>", { silent = true, desc = "Split the window vertically" })
 k({ "n", "v" }, "<leader>-", "<cmd>split<cr>", { silent = true, desc = "Split the window horizontally" })
 k({ "n", "v" }, "<leader><bs>", "<cmd>close<cr>", { silent = true, desc = "Close the current window" })
