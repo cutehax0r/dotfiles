@@ -28,11 +28,11 @@ local catppuccin = {
           ContextVt = { fg = "#494d64" }, -- colors.surface1
           NonText = { fg = "#303446" }, -- return character etc in list chars -- colors.base
           Whitespace = { fg = "#303446" }, -- trailing whitespace chars
-          -- Snacks picker directory and hidden text is too dark when selecting a file: Make it brighter
-          SnacksPickerDirectory = { fg = colors.overlay0, style = { "bold" } },
+          SnacksPickerDirectory = { fg = colors.overlay2, style = { "bold" } },
           SnacksPickerPathHidden = { fg = colors.overlay0 },
           SnacksPickerDir = { fg = colors.overlay0 },
-          SnacksDim = { fg = colors.surface1 }
+          SnacksDim = { fg = colors.surface1 },
+          SnacksPickerGitStatusUntracked = { fg = colors.mauve }
         }
       end,
 
