@@ -104,15 +104,20 @@ config.keys = {
   { key = 'w', mods = 'CMD|SHIFT', action = wezterm.action.CloseCurrentTab { confirm = false } },
   { key = '[', mods = 'CMD', action = wezterm.action.ActivatePaneDirection 'Prev' },
   { key = ']', mods = 'CMD', action = wezterm.action.ActivatePaneDirection 'Next' },
+  { key = 'h', mods = 'CMD', action = wezterm.action.ActivatePaneDirection('Left') },
+  { key = 'j', mods = 'CMD', action = wezterm.action.ActivatePaneDirection('Down') },
+  { key = 'k', mods = 'CMD', action = wezterm.action.ActivatePaneDirection('Up') },
+  { key = 'l', mods = 'CMD', action = wezterm.action.ActivatePaneDirection('Right') },
   { key = 'Enter', mods = 'CMD|SHIFT', action = wezterm.action.TogglePaneZoomState },
   { key = ',', mods = 'CMD', action = wezterm.action.RotatePanes 'CounterClockwise' },
   { key = '.', mods = 'CMD', action = wezterm.action.RotatePanes 'Clockwise' },
-  { key = 'k', mods = 'CMD', action = wezterm.action.Multiple {
+  { key = 'Backspace', mods = 'CMD', action = wezterm.action.Multiple {
     wezterm.action.ClearScrollback 'ScrollbackAndViewport',
     wezterm.action.SendKey { key = 'L', mods = 'CTRL' },
   } },
   { key = 'b', mods = 'CTRL', action = wezterm.action.ScrollByPage(-1) },
   { key = 'f', mods = 'CTRL', action = wezterm.action.ScrollByPage(1) },
+
   { key = 'h', mods = 'CMD|SHIFT', action = wezterm.action.AdjustPaneSize { 'Left', 5 } },
   { key = 'j', mods = 'CMD|SHIFT', action = wezterm.action.AdjustPaneSize { 'Down', 5 } },
   { key = 'k', mods = 'CMD|SHIFT', action = wezterm.action.AdjustPaneSize { 'Up', 5 } },
