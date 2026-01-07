@@ -176,8 +176,11 @@ local snacks = {
     { "<leader>z", function() Snacks.zen.zen() end, mode = { "n", "v" }, desc = "Focus on this window: 120 columns, no distractions enabled." },
     { "<leader><cr>", function() Snacks.zen.zoom() end, mode = { "n", "v" }, desc = "Zoom this window to fill the terminal." },
     { "gd", function() Snacks.picker.lsp_definitions() end, mode = { "n", "v" }, desc = "Go to definition" },
-    { "<leader>gl", function() Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false }) end, mode = { "n", "v" }, desc = "Git Link: copy github.com link to current file" },
-    { "<leader>gL", function() Snacks.gitbrowse({ notify = false }) end, mode = { "n", "v" }, desc = "Git link: open current file on github.com in browser" },
+    { "<leader>gu", function() Snacks.gitbrowse({ open = function(url) vim.fn.setreg("+", url) end, notify = false }) end, mode = { "n", "v" }, desc = "Git Link: copy github.com link to current file" },
+    { "<leader>gU", function() Snacks.gitbrowse({ notify = false }) end, mode = { "n", "v" }, desc = "Git link: open current file on github.com in browser" },
+    { "<leader>gl", function() Snacks.picker.git_log_line() end, mode = { "n", "v" }, desc = "Git: Browse changes to the line" },
+    { "<leader>gf", function() Snacks.picker.git_log_file() end, mode = { "n", "v" }, desc = "Git: Browse changes to the file" },
+    { "<leader>gh", function() Snacks.picker.git_log() end, mode = { "n", "v" }, desc = "Git: Browse changes to the repository" },
     -- git_log ??, -- changes to the repo
     -- git_log_file -- changes to the file
     -- git_diff -- changes in the branch
