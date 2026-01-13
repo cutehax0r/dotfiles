@@ -99,6 +99,31 @@ local dap = {
         mode = "test",
         program = "./${relativeFileDirname}",
       },
+      -- Persistent arguments with dlv?
+      -- {
+      --   type = "delve",
+      --   name = "Debug Run with Arguments",
+      --   request = "launch",
+      --
+      --   _last_program = nil,
+      --   _last_args = "",
+      --   program = function(config)
+      --     local default_program = config._last_program or vim.fn.getcwd() .. "/"
+      --     local program = vim.fn.input("Path to Go program: ", default_program, "file")
+      --     config._last_program = program
+      --     return program
+      --   end,
+      --   args = function(config)
+      --     local default_args = config._last_args or ""
+      --     local prompt = "Arguments" .. (default_args ~= "" and " (current: " .. default_args .. ")" or "") .. ": "
+      --     local args_input = vim.fn.input(prompt)
+      --     if args_input == "" then
+      --       args_input = default_args
+      --     end
+      --     config._last_args = args_input
+      --     return vim.split(args_input, " ")
+      --   end,
+      -- }
     }
 
     dap.adapters.delve = function(callback, config)
