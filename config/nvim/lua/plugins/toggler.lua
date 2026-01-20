@@ -153,9 +153,9 @@ local toggler = {
           get = function() return true end,
           set = function(state)
             if state then
-              vim.notify("needs an updatd config to use snacks")
+              vim.notify("needs an update config to use snacks")
             else
-              vim.notify("needs an updatd config to use snacks")
+              vim.notify("needs an update config to use snacks")
             end
           end
         },
