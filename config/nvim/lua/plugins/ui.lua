@@ -1,4 +1,5 @@
 -- A number of small addons that improve the editing experience
+-- TODO: consider adding https://writewithharper.com/docs/integrations/neovim
 
 -- Enable automatic insertion of mathing quotes and brackets
 -- https://github.com/windwp/nvim-autopairs
@@ -184,16 +185,16 @@ local highlight_colors = {
   end,
 }
 
--- Hide comments with conceal - is archived now. Is there an alternative?
--- https://github.com/wroyca/hide-comment.nvim
-local comments = {
-  "wroyca/hide-comment.nvim",
-  opts = {
-    auto_enable = false,
-    smart_navigation = true,
-    conceal_level = 3,
-    refresh_on_change = true,
-  },
-}
+-- -- Hide comments with conceal - is archived now. Is there an alternative?
+-- -- https://github.com/wroyca/hide-comment.nvim
+-- local comments = {
+--   "wroyca/hide-comment.nvim",
+--   opts = {
+--     auto_enable = false,
+--     smart_navigation = true,
+--     conceal_level = 3,
+--     refresh_on_change = true,
+--   },
+-- }
 
-return { autopairs, sandwich, lualine, virtual_column, blink, goto_preview, highlight_colors, comments }
+return { autopairs, sandwich, lualine, virtual_column, blink, goto_preview, highlight_colors }
