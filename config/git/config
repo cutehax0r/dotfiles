@@ -35,6 +35,7 @@ graph = log --graph --date-order --remotes --tags --abbrev-commit --decorate --f
 cleanup = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
 stashes = "!git stash list --pretty='%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs'"
 branchlog = log --pretty=format:'[%Cblue%an%Creset] %h %Cgreen%s%Creset' --numstat --reverse master..
+tidy = "!git fetch origin --prune && git branch --merged main | grep -v '^\\*' | grep -v '^\\s*main$' | xargs -r git branch -d"
 
 [init]
 defaultBranch = main
