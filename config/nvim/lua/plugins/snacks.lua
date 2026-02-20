@@ -55,6 +55,19 @@ local picker = {
       },
     },
   },
+  win = {
+    input = {
+      keys = {
+        ["<C-.>"] = { "toggle_hidden_ignored", mode = { "n", "i" } },
+      },
+    },
+  },
+  actions = {
+    toggle_hidden_ignored = function(picker)
+      picker:action("toggle_hidden")
+      picker:action("toggle_ignored")
+    end,
+  },
 }
 
 -- terminal: mostly used for external tools that want to run terminal programs
