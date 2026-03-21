@@ -32,13 +32,13 @@ local virtual_column = {
 -- https://github.com/nvim-lualine/lualine.nvim
 local lualine = {
   "nvim-lualine/lualine.nvim",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
+  dependencies = { "nvim-tree/nvim-web-devicons", "catppuccin/nvim" },
   config = function()
     ---@diagnostic disable-next-line: undefined-field
     require("lualine").setup({
       options = {
         icons_enabled = true,
-        theme = "catppuccin",
+        theme = "catppuccin-macchiato",
         component_separators = { left = "", right = "" },
         section_separators = { left = "", right = "" },
         disabled_filetypes = {
