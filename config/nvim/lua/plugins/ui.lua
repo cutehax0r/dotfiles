@@ -185,16 +185,18 @@ local highlight_colors = {
   end,
 }
 
--- -- Hide comments with conceal - is archived now. Is there an alternative?
--- -- https://github.com/wroyca/hide-comment.nvim
--- local comments = {
---   "wroyca/hide-comment.nvim",
---   opts = {
---     auto_enable = false,
---     smart_navigation = true,
---     conceal_level = 3,
---     refresh_on_change = true,
---   },
--- }
+-- Hide comments with conceal
+-- https://github.com/cutehax0r/hide-comment.nvim
+local comments = {
+  "cutehax0r/hide-comment.nvim",
+  opts = {
+    auto_enable = false,
+    smart_navigation = true,
+    smart_navigation_mode = "skip",
+    conceal_level = 3,
+    refresh_on_change = true,
+    refresh_debounce_ms = 100,
+  },
+}
 
-return { autopairs, sandwich, lualine, virtual_column, blink, goto_preview, highlight_colors }
+return { autopairs, sandwich, lualine, virtual_column, blink, goto_preview, highlight_colors, comments }

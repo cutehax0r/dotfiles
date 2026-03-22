@@ -142,12 +142,12 @@ local toggler = {
           get = function() return vim.diagnostic.is_enabled() end,
           set = function(state) vim.diagnostic.enable(state) end,
         },
-        -- {
-        --   name = "Comments",
-        --   description = "Hiding code comments",
-        --   get = function() return require('hide-comment').is_enabled() end,
-        --   set = ":HideCommentToggle",
-        -- },
+        {
+          name = "Comments",
+          description = "Hiding code comments",
+          get = function() return require('hide-comment').is_enabled() end,
+          set = ":HideCommentToggle",
+        },
         {
           name = "Color",
           description = "Color swatches beside rgb hex color definitions",
