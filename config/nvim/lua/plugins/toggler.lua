@@ -17,8 +17,29 @@ local toggler = {
         {
           name = "Everything",
           description = "Turn off everything",
-          get = function() return true end,
-          set = function() vim.notify("Toggling off everyting") end,
+          get = function()
+            -- Check if all features are enabled (except "Everything" itself)
+            local toggler = require('toggler')
+            local all_enabled = true
+            for _, feature in ipairs(toggler.get_features()) do
+              if feature.name ~= "Everything" then
+                local status, enabled = pcall(feature.get)
+                if status and not enabled then
+                  all_enabled = false
+                  break
+                end
+              end
+            end
+            return all_enabled
+          end,
+          set = function(state)
+            local toggler = require('toggler')
+            for _, feature in ipairs(toggler.get_features()) do
+              if feature.name ~= "Everything" then
+                pcall(feature.set, state)
+              end
+            end
+          end,
           icons = {
             enabled = "X",
             disabled = "X",
@@ -28,8 +49,20 @@ local toggler = {
           -- "on" = use copilot, "off" = use blink
           name = "LSP over Copilot",
           description = "Use copilot instead of LSP-powered auto completion",
-          get = function() return true end,
-          set = function() vim.notify("Toggle between Copilot and LSP suggestions", "info") end,
+          get = function()
+            return vim.b.copilot_suggestion_auto_trigger == true
+          end,
+          set = function(state)
+            if state then
+              -- Enable copilot, disable blink
+              vim.b.copilot_suggestion_auto_trigger = true
+              vim.b.completion = false
+            else
+              -- Disable copilot, enable blink
+              vim.b.copilot_suggestion_auto_trigger = false
+              vim.b.completion = nil
+            end
+          end,
           icons = {
             enabled = "",
             disabled = "",
@@ -109,12 +142,12 @@ local toggler = {
           get = function() return vim.diagnostic.is_enabled() end,
           set = function(state) vim.diagnostic.enable(state) end,
         },
-        {
-          name = "Comments",
-          description = "Hiding code comments",
-          get = function() return require('hide-comment').is_enabled() end,
-          set = ":HideCommentToggle",
-        },
+        -- {
+        --   name = "Comments",
+        --   description = "Hiding code comments",
+        --   get = function() return require('hide-comment').is_enabled() end,
+        --   set = ":HideCommentToggle",
+        -- },
         {
           name = "Color",
           description = "Color swatches beside rgb hex color definitions",
@@ -150,12 +183,14 @@ local toggler = {
         {
           name = "Images",
           description = "Rendering of images in markdown documents",
-          get = function() return true end,
+          get = function()
+            return Snacks.image.enabled == true
+          end,
           set = function(state)
             if state then
-              vim.notify("needs an update config to use snacks")
+              Snacks.image.enable()
             else
-              vim.notify("needs an update config to use snacks")
+              Snacks.image.disable()
             end
           end
         },
