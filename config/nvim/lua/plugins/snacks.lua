@@ -40,6 +40,11 @@ local input = {
 local notifier = {
   enabled = true,
   style = "compact",
+  width = {
+    min = 24,
+    max = 0.3,
+  },
+  padding = false,
 }
 
 -- picker: https://github.com/folke/snacks.nvim/blob/main/docs/picker.md

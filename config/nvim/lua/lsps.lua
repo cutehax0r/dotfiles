@@ -16,7 +16,7 @@ end
 
 ---from https://github.com/folke/snacks.nvim/blob/main/docs/notifier.md
 ---display lsp loading status
----@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
+---@type table<number, {token:lsp.ProgressToken, msg:string, pct:number, done:boolean}[]>
 local progress = vim.defaulttable()
 vim.api.nvim_create_autocmd("LspProgress", {
   ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
@@ -30,13 +30,11 @@ vim.api.nvim_create_autocmd("LspProgress", {
 
     for i = 1, #p + 1 do
       if i == #p + 1 or p[i].token == ev.data.params.token then
+        local pct = value.kind == "end" and 100 or value.percentage or 100
         p[i] = {
           token = ev.data.params.token,
-          msg = ("[%3d%%] %s%s"):format(
-            value.kind == "end" and 100 or value.percentage or 100,
-            value.title or "",
-            value.message and (" **%s**"):format(value.message) or ""
-          ),
+          msg = ("%3d%%"):format(pct),
+          pct = pct,
           done = value.kind == "end",
         }
         break
@@ -48,12 +46,32 @@ vim.api.nvim_create_autocmd("LspProgress", {
       return table.insert(msg, v.msg) or not v.done
     end, p)
 
+    local display = {} ---@type string[]
+    for active_client_id, client_progress in pairs(progress) do
+      if #client_progress > 0 then
+        local active_client = vim.lsp.get_client_by_id(active_client_id)
+        if active_client then
+          local best_msg = client_progress[1].msg
+          local best_pct = -1
+          for _, item in ipairs(client_progress) do
+            if item.pct >= best_pct then
+              best_pct = item.pct
+              best_msg = item.msg
+            end
+          end
+          table.insert(display, ("%s: %s"):format(active_client.name, best_msg))
+        end
+      end
+    end
+    table.sort(display)
+
     local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-    vim.notify(table.concat(msg, "\n"), "info", {
+    local is_loading = #display > 0
+    vim.notify(is_loading and table.concat(display, "\n") or "All language servers are ready", "info", {
       id = "lsp_progress",
-      title = client.name,
+      title = "LSP Loading",
       opts = function(notif)
-        notif.icon = #progress[client.id] == 0 and " "
+        notif.icon = not is_loading and " "
           ---@diagnostic disable-next-line: undefined-field
           or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
       end,
