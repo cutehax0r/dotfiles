@@ -19,9 +19,9 @@ local toggler = {
           description = "Turn off everything",
           get = function()
             -- Check if all features are enabled (except "Everything" itself)
-            local toggler = require('toggler')
+            local features = require("toggler.config").options.features or {}
             local all_enabled = true
-            for _, feature in ipairs(toggler.get_features()) do
+            for _, feature in ipairs(features) do
               if feature.name ~= "Everything" then
                 local status, enabled = pcall(feature.get)
                 if status and not enabled then
@@ -33,10 +33,11 @@ local toggler = {
             return all_enabled
           end,
           set = function(state)
-            local toggler = require('toggler')
-            for _, feature in ipairs(toggler.get_features()) do
+            local features = require("toggler.config").options.features or {}
+            local execute = require("toggler.commands").execute_feature_action
+            for _, feature in ipairs(features) do
               if feature.name ~= "Everything" then
-                pcall(feature.set, state)
+                execute(feature, state)
               end
             end
           end,
