@@ -30,7 +30,7 @@ config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = false
 config.show_new_tab_button_in_tab_bar = false
 config.window_frame = {
-  font_size = 12.0,
+  font_size = 14.0,
 }
 config.window_padding = {
   left = 10,
@@ -56,9 +56,9 @@ local cc = wezterm.color.get_builtin_schemes()["Catppuccin Macchiato"]
 config.inactive_pane_hsb = { saturation = 1.0, brightness = 1.0, }
 -- cc.background = '#24273A' -- c.base
 cc.cursor_bg = '#f5a97f'
-cc.tab_bar.background = "#040404"
-cc.tab_bar.inactive_tab.bg_color = "#0f0f0f"
-cc.tab_bar.new_tab.bg_color = "#080808"
+cc.tab_bar.background = '#040404'
+cc.tab_bar.inactive_tab.bg_color = '#0f0f0f'
+cc.tab_bar.new_tab.bg_color = '#080808'
 
 config.color_schemes = {
   ['cc'] = cc
@@ -71,9 +71,9 @@ config.color_scheme = 'cc'
 -- Fonts
 -- /Applications/Wezterm.app/Contents/Macos/wezterm ls-fonts --list-system
 config.font = wezterm.font('Cartograph CF', { weight = 'Light', italic = false })
-config.font_size = 12
+config.font_size = 14
 config.adjust_window_size_when_changing_font_size = false
-config.tab_max_width = 13
+config.tab_max_width = 12
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 
 -- keybinds

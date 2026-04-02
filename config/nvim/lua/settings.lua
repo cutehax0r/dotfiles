@@ -21,6 +21,7 @@ o.fillchars =  {				-- default fill chars for status bars, split borders, etc.
   fold = " ",
   foldopen = "▾",
   foldclose = "▸",
+  eob = " ",
 }
 o.foldenable = false				-- turn off code folding, enable it with 'zi'
 o.foldlevelstart = 1				-- new buffers start with some folds closed iff folding is enabled
