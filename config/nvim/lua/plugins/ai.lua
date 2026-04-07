@@ -2,6 +2,7 @@
 -- https://github.com/NickvanDyke/opencode.nvim
 -- This may be a better alternative if you want something using neovim natively
 -- https://github.com/sudo-tee/opencode.nvim
+-- https://github.com/folke/sidekick.nvim
 local opencode = {
  "NickvanDyke/opencode.nvim",
   dependencies = {
