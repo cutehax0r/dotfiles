@@ -7,11 +7,37 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "agent_servers": {
+    "opencode": {
+      "type": "registry"
+    },
+    "github-copilot-cli": {
+      "type": "registry"
+    },
+    "codex-acp": {
+      "type": "registry"
+    }
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "git_panel": {
+    "dock": "right"
+  },
+  "on_last_window_closed": "quit_app",
+  "when_closing_with_no_tabs": "close_window",
+  "restore_on_startup": "empty_tab",
   "agent": {
+    "dock": "right",
+    "inline_assistant_model": {
+      "provider": "opencode",
+      "model": "gpt-5.4",
+      "enable_thinking": false
+    },
     "default_profile": "ask",
     "default_model": {
-      "provider": "lmstudio",
-      "model": "minimax-m2.5",
+      "provider": "opencode",
+      "model": "claude-sonnet-4-6",
       "enable_thinking": false
     },
     "favorite_models": [],
@@ -24,6 +50,7 @@
   },
   "buffer_font_weight": 400.0,
   "collaboration_panel": {
+    "dock": "right",
     "button": false,
   },
   "status_bar": {
@@ -49,6 +76,7 @@
     "metrics": false,
   },
   "session": {
+    "restore_unsaved_buffers": false,
     "trust_all_worktrees": true,
   },
   "vim_mode": true,
