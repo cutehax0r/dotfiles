@@ -131,12 +131,8 @@ fi
 if test -r "$HOMEBREW_PREFIX/opt/chruby/share/chruby/chruby.sh"
 then
   source "$HOMEBREW_PREFIX/opt/chruby/share/chruby/chruby.sh"
-  # ruby-build 3.4.6 ~/.local/share/ruby/3.4.6
-  RUBIES+=(
-    "$HOME/.local/share/ruby/3.4.6"
-    "$HOME/.local/share/ruby/4.0.0"
-  )
-  chruby 4.0.0
+  RUBIES=($HOME/.local/share/ruby/*(/:N))
+  chruby 4.0.6
 fi
 
 if test -r "$HOMEBREW_PREFIX/bin/fnm"
