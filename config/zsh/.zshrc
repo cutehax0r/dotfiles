@@ -141,6 +141,23 @@ then
   eval "$($HOMEBREW_PREFIX/bin/fnm env --use-on-cd --shell zsh)"  && eval "$($HOMEBREW_PREFIX/bin/fnm env --use-on-cd --shell zsh)"
 fi
 
+if test -r "$HOMEBREW_PREFIX/opt/rustup/bin/rustup"
+then
+  # rustup is keg-only (conflicts with the `rust` formula), so it isn't linked into $HOMEBREW_PREFIX/bin
+  path=($HOMEBREW_PREFIX/opt/rustup/bin $path)
+fi
+
+if test -r "$HOME/.cargo/bin/cargo"
+then
+  # the standard rustup proxy shims, if present
+  path=($HOME/.cargo/bin $path)
+elif test -r "$HOME/.rustup/toolchains/stable-aarch64-apple-darwin/bin/cargo"
+then
+  # Homebrew's rustup formula doesn't create ~/.cargo/bin proxies, so point at the
+  # active toolchain's bin dir directly instead
+  path=($HOME/.rustup/toolchains/stable-aarch64-apple-darwin/bin $path)
+fi
+
 if test -r "$HOMEBREW_PREFIX/bin/fzf"
 then
   export FZF_DEFAULT_OPTS=" \
@@ -182,11 +199,11 @@ function get_keychain_item() {
   local keychain_name="$1"
   local item_type="$2"
   local result
-  
+
   if [[ -z "$keychain_name" || -z "$item_type" ]]; then
     return 1
   fi
-  
+
   case "$item_type" in
     account)
       result=$(security find-generic-password -l "$keychain_name" 2>/dev/null | awk '/"acct"<blob>/ { val=$0; sub(/.*=/,"",val); gsub(/"/,"",val); print val }')

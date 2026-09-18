@@ -8,6 +8,13 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "agent_servers": {
+    "claude-acp": {
+      "default_config_options": {
+        "mode": "plan",
+        "fast": true
+      },
+      "type": "registry"
+    },
     "opencode": {
       "type": "registry"
     },
