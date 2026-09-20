@@ -53,6 +53,7 @@ local ts_modules = {
       "markdown",
       "python",
       "ruby",
+      "rust",
       "sql",
       "tsv",
       "tsx",

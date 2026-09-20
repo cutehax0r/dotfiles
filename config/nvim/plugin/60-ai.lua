@@ -3,7 +3,22 @@ vim.pack.add({
   'https://github.com/zbirenbaum/copilot.lua',
 })
 
+local opencode_cmd = 'opencode --port'
+---@type snacks.terminal.Opts
+local opencode_terminal_opts = {
+  win = {
+    position = 'right',
+    enter = false,
+  },
+}
+
+---@type opencode.Opts
 vim.g.opencode_opts = {
+  server = {
+    start = function()
+      require('snacks.terminal').open(opencode_cmd, opencode_terminal_opts)
+    end,
+  },
 }
 
 require('copilot').setup({
@@ -37,5 +52,7 @@ vim.api.nvim_create_autocmd('User', {
   end,
 })
 
-vim.keymap.set({ 'n', 'v' }, '<leader>aa', function() require('opencode').toggle() end, { desc = 'AI Chat: Toggle OpenCode' })
+vim.keymap.set({ 'n', 'v' }, '<leader>aa', function()
+  require('snacks.terminal').toggle(opencode_cmd, opencode_terminal_opts)
+end, { desc = 'AI Chat: Toggle OpenCode' })
 vim.keymap.set({ 'n', 'v' }, '<leader>ac', '<cmd>Copilot suggestion toggle_auto_trigger<cr>', { desc = 'Copilot: toggle suggestions' })
