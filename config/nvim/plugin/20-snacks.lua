@@ -197,3 +197,4 @@ vim.keymap.set({ 'n', 'v' }, '<leader>gU', function() Snacks.gitbrowse({ notify 
 vim.keymap.set({ 'n', 'v' }, '<leader>gl', function() Snacks.picker.git_log_line() end, { desc = 'Git: Browse changes to the line' })
 vim.keymap.set({ 'n', 'v' }, '<leader>gf', function() Snacks.picker.git_log_file() end, { desc = 'Git: Browse changes to the file' })
 vim.keymap.set({ 'n', 'v' }, '<leader>gh', function() Snacks.picker.git_log() end, { desc = 'Git: Browse changes to the repository' })
+vim.keymap.set({ 'n', 'v' }, '<leader>gS', function() Snacks.picker.git_status({ layout = { preset = 'sidebar' } }) end, { desc = 'Git: Browse changed files in a sidebar' })

@@ -1,25 +1,9 @@
 vim.pack.add({
-  'https://github.com/NickvanDyke/opencode.nvim',
+  'https://github.com/coder/claudecode.nvim',
   'https://github.com/zbirenbaum/copilot.lua',
 })
 
-local opencode_cmd = 'opencode --port'
----@type snacks.terminal.Opts
-local opencode_terminal_opts = {
-  win = {
-    position = 'right',
-    enter = false,
-  },
-}
-
----@type opencode.Opts
-vim.g.opencode_opts = {
-  server = {
-    start = function()
-      require('snacks.terminal').open(opencode_cmd, opencode_terminal_opts)
-    end,
-  },
-}
+require('claudecode').setup()
 
 require('copilot').setup({
   panel = { enabled = false },
@@ -52,7 +36,5 @@ vim.api.nvim_create_autocmd('User', {
   end,
 })
 
-vim.keymap.set({ 'n', 'v' }, '<leader>aa', function()
-  require('snacks.terminal').toggle(opencode_cmd, opencode_terminal_opts)
-end, { desc = 'AI Chat: Toggle OpenCode' })
+vim.keymap.set({ 'n', 'v' }, '<leader>aa', '<cmd>ClaudeCode<cr>', { desc = 'AI Chat: Toggle Claude Code' })
 vim.keymap.set({ 'n', 'v' }, '<leader>ac', '<cmd>Copilot suggestion toggle_auto_trigger<cr>', { desc = 'Copilot: toggle suggestions' })
