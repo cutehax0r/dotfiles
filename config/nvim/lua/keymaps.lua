@@ -6,14 +6,17 @@ k({ "n", "v" }, "ZZ", "<cmd>x<cr>", { silent = true, desc = "Save changes (if an
 k({ "n", "v" }, "<leader>\\", "<cmd>vsplit<cr>", { silent = true, desc = "Split the window vertically" })
 k({ "n", "v" }, "<leader>-", "<cmd>split<cr>", { silent = true, desc = "Split the window horizontally" })
 k({ "n", "v" }, "<leader><bs>", "<cmd>close<cr>", { silent = true, desc = "Close the current window" })
-k({ "n", "v" }, "<c-h>", "<cmd>wincmd h<cr>", { silent = true, desc = "Select to the window on the left" })
-k({ "n", "v" }, "<c-j>", "<cmd>wincmd j<cr>", { silent = true, desc = "Select to the window below" })
-k({ "n", "v" }, "<c-k>", "<cmd>wincmd k<cr>", { silent = true, desc = "Select to the window above" })
-k({ "n", "v" }, "<c-l>", "<cmd>wincmd l<cr>", { silent = true, desc = "Select to the window on the right" })
-k({ "n", "v" }, "<c-s-h>", function() vim.api.nvim_win_set_width(0, vim.api.nvim_win_get_width(0)-5) end, { silent = true, desc = "Resize window: narrower" })
-k({ "n", "v" }, "<c-s-j>", function() vim.api.nvim_win_set_height(0, vim.api.nvim_win_get_height(0)-5) end, { silent = true, desc = "Resize window: shorter" })
-k({ "n", "v" }, "<c-s-k>", function() vim.api.nvim_win_set_height(0, vim.api.nvim_win_get_height(0)+5) end, { silent = true, desc = "Resize window: taller" })
-k({ "n", "v" }, "<c-s-l>", function() vim.api.nvim_win_set_width(0, vim.api.nvim_win_get_width(0)+5) end, { silent = true, desc = "Resize window: wider" })
+-- Also bound in terminal-mode ("t") so navigation/resizing still works from
+-- inside terminal buffers (e.g. the claudecode.nvim chat split), where these
+-- keys would otherwise be swallowed by the terminal (ctrl-h => backspace).
+k({ "n", "v", "t" }, "<c-h>", "<cmd>wincmd h<cr>", { silent = true, desc = "Select to the window on the left" })
+k({ "n", "v", "t" }, "<c-j>", "<cmd>wincmd j<cr>", { silent = true, desc = "Select to the window below" })
+k({ "n", "v", "t" }, "<c-k>", "<cmd>wincmd k<cr>", { silent = true, desc = "Select to the window above" })
+k({ "n", "v", "t" }, "<c-l>", "<cmd>wincmd l<cr>", { silent = true, desc = "Select to the window on the right" })
+k({ "n", "v", "t" }, "<c-s-h>", function() vim.api.nvim_win_set_width(0, vim.api.nvim_win_get_width(0)-5) end, { silent = true, desc = "Resize window: narrower" })
+k({ "n", "v", "t" }, "<c-s-j>", function() vim.api.nvim_win_set_height(0, vim.api.nvim_win_get_height(0)-5) end, { silent = true, desc = "Resize window: shorter" })
+k({ "n", "v", "t" }, "<c-s-k>", function() vim.api.nvim_win_set_height(0, vim.api.nvim_win_get_height(0)+5) end, { silent = true, desc = "Resize window: taller" })
+k({ "n", "v", "t" }, "<c-s-l>", function() vim.api.nvim_win_set_width(0, vim.api.nvim_win_get_width(0)+5) end, { silent = true, desc = "Resize window: wider" })
 
 k({ "n", "v" }, "<leader>]", "<cmd>bnext<cr>", { silent = true, desc = "Switch to the next buffer in the current window" })
 k({ "n", "v" }, "<leader>[", "<cmd>bprev<cr>", { silent = true, desc = "Switch to the previous buffer in the current window" })

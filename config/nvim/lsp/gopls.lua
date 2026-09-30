@@ -16,7 +16,7 @@ return {
   settings = {
     gopls = {
       hints = {
-        rangeVariableTyoes = true,
+        rangeVariableTypes = true,
         parameterNames = true,
         constantValues = true,
         assignVariableTypes = true,

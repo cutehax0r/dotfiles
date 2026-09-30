@@ -19,23 +19,6 @@ return {
     "makefile",
     ".git",
   },
-  settings = {
-    gopls = {
-      hints = {
-        rangeVariableTyoes = true,
-        parameterNames = true,
-        constantValues = true,
-        assignVariableTypes = true,
-        compositeLiteralFields = true,
-        compositeLiteralTypes = true,
-        functionTypeParameters = true,
-      },
-      completeUnimported = true,
-      usePlaceholders = true,
-      analyses = {
-        unusedparams = true,
-      }
-    }
-  }
+  -- settings = { }
 }
 
