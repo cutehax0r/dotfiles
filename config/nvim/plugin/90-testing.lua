@@ -13,12 +13,34 @@ vim.pack.add({
   'https://github.com/nvim-lua/plenary.nvim',
   'https://github.com/antoinemadec/FixCursorHold.nvim',
   'https://github.com/volodya-lombrozo/neotest-ruby-minitest',
+  'https://github.com/olimorris/neotest-rspec',
   'https://github.com/fredrikaverpil/neotest-golang',
 })
 
+-- neotest-ruby-minitest only knows how to run file, test and dir nodes and throws on `namespace`
+-- (what "run nearest" selects when the cursor is on or around a test class). Run the whole file
+-- for namespaces instead.
+local minitest = require('neotest-ruby-minitest')({ command = 'bundle exec ruby -Itest -Ilib' })
+local minitest_build_spec = minitest.build_spec
+minitest.build_spec = function(args)
+  local data = args.tree:data()
+  if data.type == 'namespace' then
+    local file_args = vim.tbl_extend('force', args, {
+      tree = { data = function() return { type = 'file', path = data.path } end },
+    })
+    return minitest_build_spec(file_args)
+  end
+  return minitest_build_spec(args)
+end
+
 require('neotest').setup({
   adapters = {
-    require('neotest-ruby-minitest')({ command = 'bundle exec ruby -Itest' }),
+    -- Bare minitest: run the file directly with ruby rather than through `rake test`, which
+    -- mangles `-n` name filters. `-Ilib` so `require "fooapp"` resolves without a Rails-style loader.
+    minitest,
+    require('neotest-rspec')({
+      rspec_cmd = function() return { 'bundle', 'exec', 'rspec' } end,
+    }),
     require('neotest-golang')({}),
   },
   diagnostic = {
@@ -31,3 +53,6 @@ vim.keymap.set({ 'n', 'v' }, '<leader>tr', '<cmd>Neotest run<CR>', { desc = 'Run
 vim.keymap.set({ 'n', 'v' }, '<leader>tf', "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<CR>", { desc = 'Run the the current test file' })
 vim.keymap.set({ 'n', 'v' }, '<leader>to', '<cmd>Neotest output<CR>', { desc = 'View the output for the current test' })
 vim.keymap.set({ 'n', 'v' }, '<leader>tO', '<cmd>Neotest output-panel<CR>', { desc = 'Toggle the output panel for tests' })
+vim.keymap.set({ 'n', 'v' }, '<leader>ta', "<cmd>lua require('neotest').run.run(vim.uv.cwd())<CR>", { desc = 'Run all tests in the project' })
+vim.keymap.set({ 'n', 'v' }, '<leader>tl', "<cmd>lua require('neotest').run.run_last()<CR>", { desc = 'Re-run the last test' })
+vim.keymap.set({ 'n', 'v' }, '<leader>T', '<cmd>Neotest summary<CR>', { desc = 'Toggle test summary panel' })

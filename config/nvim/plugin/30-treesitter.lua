@@ -37,6 +37,7 @@ require('treesitter-modules').setup({
     'markdown',
     'python',
     'ruby',
+    'rust',
     'sql',
     'tsv',
     'tsx',

@@ -40,6 +40,15 @@ local notifier = {
 
 local picker = {
   enabled = true,
+  previewers = {
+    -- The default "fancy" diff style post-processes the whole diff in Lua on the main thread. A
+    -- commit with big generated files (sorbet RBIs, lockfiles) froze the UI for ~20s. "terminal"
+    -- lets git do the coloring in a pty instead (~50ms for the same commit).
+    diff = { style = 'terminal' },
+    -- core.pager=less in the global git config beats the PAGER=cat snacks sets; force cat so the
+    -- preview terminal never launches an interactive pager.
+    git = { args = { '-c', 'core.pager=cat' } },
+  },
   sources = {
     explorer = {
       layout = {

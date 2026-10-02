@@ -7,47 +7,54 @@ vim.pack.add({
 
 local dap = require('dap')
 
+-- rdbg (debug gem) is launched by nvim-dap under a free port and attached to. `-n` makes it run
+-- until the first breakpoint instead of stopping on line 1. Uses `bundle exec rdbg` so the
+-- project's own `debug` gem version is used.
+local function rdbg_adapter(callback, config)
+  local args = { 'exec', 'rdbg', '-n', '--open', '--port', '${port}', '-c', '--' }
+  vim.list_extend(args, config.command)
+  callback({
+    type = 'server',
+    host = '127.0.0.1',
+    port = '${port}',
+    executable = { command = 'bundle', args = args },
+  })
+end
+
+local function prompt_args()
+  local input = vim.fn.input('Arguments: ')
+  return input == '' and {} or vim.split(input, ' ', { trimempty = true })
+end
+
+dap.adapters.ruby = rdbg_adapter
+
 dap.configurations.ruby = {
   {
-    type = 'ruby',
-    name = 'Executable',
-    request = 'attach',
-    port = 12345,
-    localfs = true,
-    program = function()
-      local program = vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/exe/', 'file')
-      return { 'bundle', 'exec', program }
+    type = 'ruby', name = 'Run current file', request = 'attach', localfs = true,
+    command = function() return { 'ruby', vim.fn.expand('%:p') } end,
+  },
+  {
+    type = 'ruby', name = 'Minitest: current file', request = 'attach', localfs = true,
+    command = function() return { 'ruby', '-Itest', '-Ilib', vim.fn.expand('%:p') } end,
+  },
+  {
+    type = 'ruby', name = 'RSpec: current file', request = 'attach', localfs = true,
+    command = function() return { 'rspec', vim.fn.expand('%:p') } end,
+  },
+  {
+    type = 'ruby', name = 'Executable (exe/...)', request = 'attach', localfs = true,
+    command = function()
+      return { vim.fn.input('Executable: ', vim.fn.getcwd() .. '/exe/', 'file') }
     end,
   },
   {
-    type = 'ruby',
-    name = 'Executable with arguments',
-    request = 'attach',
-    port = 12345,
-    localfs = true,
-    program = function()
-      local program = vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/exe/', 'file')
-      local args = vim.fn.input('Arguments: ')
-      local command = { 'bundle', 'exec' }
-      command = vim.list_extend(command, { program })
-      args = vim.split(args, ' ')
-      return vim.list_extend(command, args)
+    type = 'ruby', name = 'Executable with arguments', request = 'attach', localfs = true,
+    command = function()
+      local cmd = { vim.fn.input('Executable: ', vim.fn.getcwd() .. '/exe/', 'file') }
+      return vim.list_extend(cmd, prompt_args())
     end,
   },
 }
-
-dap.adapters.ruby = function(callback, config)
-  local args = { '--open', '--port=${port}', '-c', '--' }
-  local final = vim.list_extend(args, config.program)
-  callback {
-    type = 'server',
-    port = '${port}',
-    executable = {
-      command = 'rdbg',
-      args = final,
-    },
-  }
-end
 
 dap.configurations.go = {
   {
@@ -114,3 +121,4 @@ vim.keymap.set({ 'n', 'v' }, '<leader>de', '<cmd>DapToggleRepl<CR>', { desc = 'D
 vim.keymap.set({ 'n', 'v' }, '<leader>dr', function() require('dap').run_to_cursor() end, { desc = 'Debugger: run to cursor' })
 vim.keymap.set({ 'n', 'v' }, '<leader>dsu', function() require('dap').up() end, { desc = 'Debugger: stack Trace Up' })
 vim.keymap.set({ 'n', 'v' }, '<leader>dsd', function() require('dap').down() end, { desc = 'Debugger: stack Trace Down' })
+vim.keymap.set({ 'n', 'v' }, '<leader>D', '<cmd>DapViewToggle<CR>', { desc = 'Debugger: toggle the debugger UI' })

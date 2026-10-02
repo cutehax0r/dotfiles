@@ -56,6 +56,7 @@ vim.keymap.set({ 'n', 'v' }, ']g', '<cmd>Gitsigns next_hunk<cr>', { desc = 'Git:
 vim.keymap.set({ 'n', 'v' }, '[g', '<cmd>Gitsigns prev_hunk<cr>', { desc = 'Git: previous hunk' })
 vim.keymap.set({ 'n', 'v' }, '<leader>gg', '<cmd>PP<cr>', { desc = 'Git Gist: create a github gist with the current buffer and put the link on the clipboard' })
 vim.keymap.set({ 'v' }, '<leader>gg', "<cmd>'<,'>PP<cr>", { desc = 'Git Gist: create a github gist with the selection and open it in the browser' })
+vim.keymap.set({ 'n', 'v' }, '<leader>G', '<cmd>CodeDiff<cr>', { desc = 'Git: toggle the CodeDiff view (working tree changes)' })
 vim.keymap.set({ 'n', 'v' }, '<leader>gd', '<cmd>CodeDiff file HEAD<cr>', { desc = 'Git: Diff file with last commit (HEAD)' })
 vim.keymap.set({ 'n', 'v' }, '<leader>gD', '<cmd>CodeDiff HEAD<cr>', { desc = 'Git: Diff branch with last commit (HEAD)' })
 vim.keymap.set({ 'n', 'v' }, '<leader>gm', function()
